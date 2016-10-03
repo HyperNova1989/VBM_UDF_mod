@@ -41,7 +41,7 @@ List_Ref(Pointer l, int n)
 /*---------------------------------------------------------------------------*/
 /*                 BEGIN GLOBAL INPUT VARIABLES                              */
 /*---------------------------------------------------------------------------*/
-/*Max. number of rotor zones 10*/
+/*Max. number of rotor zones 20*/
 /*Max. number of blade sections 20*/
 /*Max. name length for profile types 30 characters*/
 /*Max. name length for airfoil tables 30 characters*/
@@ -50,46 +50,46 @@ List_Ref(Pointer l, int n)
 
 /*GUI*/
   int nrtz;                          /*Number of Rotor zones*/
-  int nbld[10];                      /*Number of blades*/
-  real rrl[10];                      /*Rotor radius*/
-  real rspe[10];                     /*Rotor speed*/
-  real teff[10];                     /*Tip effect*/
-  real dskco[10][3];                 /*Rotor disk origin 0x 1y 2z*/
-  real dpit[10];                     /*Rotor disk pitch angle*/
-  real dban[10];                     /*Rotor disk bank angle*/
-  int fzon[10];                      /*Rotor face zone ID*/
+  int nbld[20];/*Edited*/                      /*Number of blades*/
+  real rrl[20];/*Edited*/                      /*Rotor radius*/
+  real rspe[20];/*Edited*/                     /*Rotor speed*/
+  real teff[20];/*Edited*/                     /*Tip effect*/
+  real dskco[20][3];/*Edited*/                 /*Rotor disk origin 0x 1y 2z*/
+  real dpit[20];/*Edited*/                     /*Rotor disk pitch angle*/
+  real dban[20];/*Edited*/                     /*Rotor disk bank angle*/
+  int fzon[20];/*Edited*/                      /*Rotor face zone ID*/
 
-  real bcop[10];                     /*Blade pitch collective*/
-  real bcys[10];                     /*Blade pitch cyclic sin*/
-  real bcyc[10];                     /*Blade pitch cyclic cos*/
-  real bflco[10];                    /*Blade flapping cone*/
-  real bfls[10];                     /*Blade flapping cyclic sin*/
-  real bflc[10];                     /*Blade flapping cyclic cos*/
+  real bcop[20];/*Edited*/                      /*Blade pitch collective*/
+  real bcys[20];/*Edited*/                      /*Blade pitch cyclic sin*/
+  real bcyc[20];/*Edited*/                      /*Blade pitch cyclic cos*/
+  real bflco[20];/*Edited*/                     /*Blade flapping cone*/
+  real bfls[20];/*Edited*/                      /*Blade flapping cyclic sin*/
+  real bflc[20];/*Edited*/                      /*Blade flapping cyclic cos*/
 
-  int nsec[10];                      /*Number of blade sections along span*/
-  real rin[10][20];                  /*Normalized inner radius*/
-  real rout[10][20];                 /*Normalized outer radius*/
-  real rsec[10][20];				 /*Normalizes radius from GUI*/
-  real cin[10][20];                  /*Chord at normalized inner radius*/
-  real cout[10][20];                 /*Chord at normalized outer radius*/
-  real csec[10][20];				 /*Chord at normalized sectional radius (GUI)*/
-  real twst[10][20];                 /*Twist*/
-  char type[10][20][30];             /*Profile type name */
+  int nsec[20];/*Edited*/                       /*Number of blade sections along span*/
+  real rin[20][20];/*Edited*/                   /*Normalized inner radius*/
+  real rout[20][20];/*Edited*/                  /*Normalized outer radius*/
+  real rsec[20][20];/*Edited*/ 				 /*Normalizes radius from GUI*/
+  real cin[20][20];/*Edited*/                   /*Chord at normalized inner radius*/
+  real cout[20][20];/*Edited*/                  /*Chord at normalized outer radius*/
+  real csec[20][20];/*Edited*/ 				 /*Chord at normalized sectional radius (GUI)*/
+  real twst[20][20];/*Edited*/                  /*Twist*/
+  char type[20][20][30];/*Edited*/              /*Profile type name */
 
-  int trmco[10]={0,0,0,0,0,0,0,0,0,0}; /*Trimming collective pitch 1(ON) 0(OFF)*/
-  int trmcy[10]={0,0,0,0,0,0,0,0,0,0}; /*Trimming cyclic pitch 1(ON) 0(OFF)*/
-  real trdf[10];                     /*Trimming damping factor*/
-  int trufq[10];                     /*Trimming update frequency*/
-  real ctd[10];                      /*Trimming desired ct*/
-  real cmxd[10];                     /*Trimming desired cmx*/
-  real cmyd[10];                     /*Trimming desired cmy*/
+  int trmco[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};/*Edited*/  /*Trimming collective pitch 1(ON) 0(OFF)*/
+  int trmcy[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};/*Edited*/  /*Trimming cyclic pitch 1(ON) 0(OFF)*/
+  real trdf[20];/*Edited*/                      /*Trimming damping factor*/
+  int trufq[20];/*Edited*/                      /*Trimming update frequency*/
+  real ctd[20];/*Edited*/                       /*Trimming desired ct*/
+  real cmxd[20];/*Edited*/                      /*Trimming desired cmx*/
+  real cmyd[20];/*Edited*/                      /*Trimming desired cmy*/
   int trpt;                          /*Trim around point 1(ON) 0(OFF)*/
 
 
   int ktot;							/*Number of different airfoiltables read in*/
   char file_name[100][30];			/*Name of airfoil tables, eg. airfoil.dat*/
   char check_name[100][30];			/*Name of airfoil, eg. naca0012*/
-  char clorcd[100][50][10];			/*cl or cd entry*/
+  char clorcd[100][50][20];/*Edited*/ 			/*cl or cd entry*/
   float RE[100][50];				/*Airfoil Reynolds number*/
   float MA[100][50];				/*Airfoil Mach number*/
   int itot[100];					/*Number of entries per .dat file*/
@@ -99,7 +99,7 @@ List_Ref(Pointer l, int n)
   cxboolean rho_const;                /*true if density const, false otherwise*/
 
 /*TUI*/
-  real urf_source=0.5;				/*URF for source calculation*/
+  real urf_source=0.01;				/*URF for source calculation*/
   int i_start=10;					/*No iterations for linear rspe ramp up*/
   real coef_fac=1.0;				/*Factor to calculate the thrust, momentum,
 										and torque coefficients.
@@ -116,10 +116,10 @@ List_Ref(Pointer l, int n)
 /*---------------------------------------------------------------------------*/
 /*                 BEGIN GLOBAL TRIMMING VARIABLES                           */
 /*---------------------------------------------------------------------------*/
-  int trufq_co[10], trufq_cy[10];
-  real trdf_co[10], trdf_cy[10];
-  int up_co[10], up_cy[10];
-  real sldity[10];
+  int trufq_co[20], trufq_cy[20];/*Edited*/ 
+  real trdf_co[20], trdf_cy[20];/*Edited*/ 
+  int up_co[20], up_cy[20];/*Edited*/ 
+  real sldity[20];/*Edited*/ 
 /*---------------------------------------------------------------------------*/
 /*                   END GLOBAL TRIMMING VARIABLES                           */
 /*---------------------------------------------------------------------------*/
@@ -128,15 +128,15 @@ List_Ref(Pointer l, int n)
 /*                 BEGIN GLOBAL MEMORY                                       */
 /*---------------------------------------------------------------------------*/
 #if !RP_HOST
- int czon[10];                      /*Rotor cell zone ID*/
- char factor[10][30];               /*Memory: Geometry weighting factor*/
- char xsource[10][30];				/*Memory: Source x-component*/
- char ysource[10][30];				/*Memory: Source y-component*/
- char zsource[10][30];				/*Memory: Source z-component*/
+ int czon[20];/*Edited*/                       /*Rotor cell zone ID*/
+ char factor[20][30];/*Edited*/                /*Memory: Geometry weighting factor*/
+ char xsource[20][30];/*Edited*/ 				/*Memory: Source x-component*/
+ char ysource[20][30];/*Edited*/ 				/*Memory: Source y-component*/
+ char zsource[20][30];/*Edited*/ 				/*Memory: Source z-component*/
 
- char xsource_old[10][30];	/*Memory: Source x-component previous timestep UR*/
- char ysource_old[10][30];	/*Memory: Source y-component previous timestep UR*/
- char zsource_old[10][30];	/*Memory: Source z-component previous timestep UR*/
+ char xsource_old[20][30];/*Edited*/ 	/*Memory: Source x-component previous timestep UR*/
+ char ysource_old[20][30];/*Edited*/ 	/*Memory: Source y-component previous timestep UR*/
+ char zsource_old[20][30];/*Edited*/ 	/*Memory: Source z-component previous timestep UR*/
 #endif
 /*---------------------------------------------------------------------------*/
 /*                 END GLOBAL MEMORY                                         */
@@ -283,7 +283,7 @@ List_Ref(Pointer l, int n)
 
   Message0("%d allocate_memory \n",myid);
 
-
+  /*Edited*/ 
   (void)strcpy(factor[0],"factor0");
   (void)strcpy(factor[1],"factor1");
   (void)strcpy(factor[2],"factor2");
@@ -294,7 +294,18 @@ List_Ref(Pointer l, int n)
   (void)strcpy(factor[7],"factor7");
   (void)strcpy(factor[8],"factor8");
   (void)strcpy(factor[9],"factor9");
-
+  (void)strcpy(factor[10],"factor10");
+  (void)strcpy(factor[11],"factor11");
+  (void)strcpy(factor[12],"factor12");
+  (void)strcpy(factor[13],"factor13");
+  (void)strcpy(factor[14],"factor14");
+  (void)strcpy(factor[15],"factor15");
+  (void)strcpy(factor[16],"factor16");
+  (void)strcpy(factor[17],"factor17");
+  (void)strcpy(factor[18],"factor18");
+  (void)strcpy(factor[19],"factor19");
+  /*Edited*/ 
+  /*Edited*/ 
   (void)strcpy(xsource[0],"xsource0");
   (void)strcpy(xsource[1],"xsource1");
   (void)strcpy(xsource[2],"xsource2");
@@ -305,7 +316,18 @@ List_Ref(Pointer l, int n)
   (void)strcpy(xsource[7],"xsource7");
   (void)strcpy(xsource[8],"xsource8");
   (void)strcpy(xsource[9],"xsource9");
-
+  (void)strcpy(xsource[10],"xsource10");
+  (void)strcpy(xsource[11],"xsource11");
+  (void)strcpy(xsource[12],"xsource12");
+  (void)strcpy(xsource[13],"xsource13");
+  (void)strcpy(xsource[14],"xsource14");
+  (void)strcpy(xsource[15],"xsource15");
+  (void)strcpy(xsource[16],"xsource16");
+  (void)strcpy(xsource[17],"xsource17");
+  (void)strcpy(xsource[18],"xsource18");
+  (void)strcpy(xsource[19],"xsource19");
+  /*Edited*/ 
+  /*Edited*/ 
   (void)strcpy(ysource[0],"ysource0");
   (void)strcpy(ysource[1],"ysource1");
   (void)strcpy(ysource[2],"ysource2");
@@ -316,7 +338,18 @@ List_Ref(Pointer l, int n)
   (void)strcpy(ysource[7],"ysource7");
   (void)strcpy(ysource[8],"ysource8");
   (void)strcpy(ysource[9],"ysource9");
-
+  (void)strcpy(ysource[10],"ysource10");
+  (void)strcpy(ysource[11],"ysource11");
+  (void)strcpy(ysource[12],"ysource12");
+  (void)strcpy(ysource[13],"ysource13");
+  (void)strcpy(ysource[14],"ysource14");
+  (void)strcpy(ysource[15],"ysource15");
+  (void)strcpy(ysource[16],"ysource16");
+  (void)strcpy(ysource[17],"ysource17");
+  (void)strcpy(ysource[18],"ysource18");
+  (void)strcpy(ysource[19],"ysource19");
+  /*Edited*/ 
+  /*Edited*/ 
   (void)strcpy(zsource[0],"zsource0");
   (void)strcpy(zsource[1],"zsource1");
   (void)strcpy(zsource[2],"zsource2");
@@ -327,8 +360,18 @@ List_Ref(Pointer l, int n)
   (void)strcpy(zsource[7],"zsource7");
   (void)strcpy(zsource[8],"zsource8");
   (void)strcpy(zsource[9],"zsource9");
-
-
+  (void)strcpy(zsource[10],"zsource10");
+  (void)strcpy(zsource[11],"zsource11");
+  (void)strcpy(zsource[12],"zsource12");
+  (void)strcpy(zsource[13],"zsource13");
+  (void)strcpy(zsource[14],"zsource14");
+  (void)strcpy(zsource[15],"zsource15");
+  (void)strcpy(zsource[16],"zsource16");
+  (void)strcpy(zsource[17],"zsource17");
+  (void)strcpy(zsource[18],"zsource18");
+  (void)strcpy(zsource[19],"zsource19");
+  /*Edited*/ 
+  /*Edited*/ 
   (void)strcpy(xsource_old[0],"xsource_old0");
   (void)strcpy(xsource_old[1],"xsource_old1");
   (void)strcpy(xsource_old[2],"xsource_old2");
@@ -339,7 +382,18 @@ List_Ref(Pointer l, int n)
   (void)strcpy(xsource_old[7],"xsource_old7");
   (void)strcpy(xsource_old[8],"xsource_old8");
   (void)strcpy(xsource_old[9],"xsource_old9");
-
+  (void)strcpy(xsource_old[10],"xsource_old10");
+  (void)strcpy(xsource_old[11],"xsource_old11");
+  (void)strcpy(xsource_old[12],"xsource_old12");
+  (void)strcpy(xsource_old[13],"xsource_old13");
+  (void)strcpy(xsource_old[14],"xsource_old14");
+  (void)strcpy(xsource_old[15],"xsource_old15");
+  (void)strcpy(xsource_old[16],"xsource_old16");
+  (void)strcpy(xsource_old[17],"xsource_old17");
+  (void)strcpy(xsource_old[18],"xsource_old18");
+  (void)strcpy(xsource_old[19],"xsource_old19");
+  /*Edited*/ 
+  /*Edited*/ 
   (void)strcpy(ysource_old[0],"ysource_old0");
   (void)strcpy(ysource_old[1],"ysource_old1");
   (void)strcpy(ysource_old[2],"ysource_old2");
@@ -350,7 +404,18 @@ List_Ref(Pointer l, int n)
   (void)strcpy(ysource_old[7],"ysource_old7");
   (void)strcpy(ysource_old[8],"ysource_old8");
   (void)strcpy(ysource_old[9],"ysource_old9");
-
+  (void)strcpy(ysource_old[10],"ysource_old10");
+  (void)strcpy(ysource_old[11],"ysource_old11");
+  (void)strcpy(ysource_old[12],"ysource_old12");
+  (void)strcpy(ysource_old[13],"ysource_old13");
+  (void)strcpy(ysource_old[14],"ysource_old14");
+  (void)strcpy(ysource_old[15],"ysource_old15");
+  (void)strcpy(ysource_old[16],"ysource_old16");
+  (void)strcpy(ysource_old[17],"ysource_old17");
+  (void)strcpy(ysource_old[18],"ysource_old18");
+  (void)strcpy(ysource_old[19],"ysource_old19");
+  /*Edited*/ 
+  /*Edited*/ 
   (void)strcpy(zsource_old[0],"zsource_old0");
   (void)strcpy(zsource_old[1],"zsource_old1");
   (void)strcpy(zsource_old[2],"zsource_old2");
@@ -361,7 +426,17 @@ List_Ref(Pointer l, int n)
   (void)strcpy(zsource_old[7],"zsource_old7");
   (void)strcpy(zsource_old[8],"zsource_old8");
   (void)strcpy(zsource_old[9],"zsource_old9");
-
+  (void)strcpy(zsource_old[10],"zsource_old10");
+  (void)strcpy(zsource_old[11],"zsource_old11");
+  (void)strcpy(zsource_old[12],"zsource_old12");
+  (void)strcpy(zsource_old[13],"zsource_old13");
+  (void)strcpy(zsource_old[14],"zsource_old14");
+  (void)strcpy(zsource_old[15],"zsource_old15");
+  (void)strcpy(zsource_old[16],"zsource_old16");
+  (void)strcpy(zsource_old[17],"zsource_old17");
+  (void)strcpy(zsource_old[18],"zsource_old18");
+  (void)strcpy(zsource_old[19],"zsource_old19");
+  /*Edited*/ 
 
 
   i=0;
@@ -526,7 +601,7 @@ List_Ref(Pointer l, int n)
 
 #if !RP_NODE
 /*---------------------------------------------------------------------------*/
- void read_in_airfoil_tables(char check_name[][30], char clorcd[][50][10],
+ void read_in_airfoil_tables(char check_name[][30], char clorcd[][50][20],
 	                         float RE[][50], float MA[][50], int itot[],
 							 int jtot[][50], float aoa[][50][80],
 							 float coeff[][50][80])
@@ -2048,7 +2123,7 @@ void get_cmy(int i,real My_pb,real *CMY_ptr)
 		   Message("    %d new collective pitch %f \n",myid, bcop[i]*180/M_PI);
 		   Message("    %d difference %f \n",myid, del_co*180/M_PI);
 
-		   *flag_jac_ptr = 10;
+		   *flag_jac_ptr = 12;
 
 		   up_co[i]=1;
            goto COEND;
@@ -2282,7 +2357,7 @@ void get_cmy(int i,real My_pb,real *CMY_ptr)
 					    del_cys*180/M_PI, del_cyc*180/M_PI);
 
 
-				*flag_jac_ptr = 10;
+				*flag_jac_ptr = 12;
 
 			    up_cy[i]=1;
                 goto CYEND;
@@ -2626,7 +2701,7 @@ void get_cmy(int i,real My_pb,real *CMY_ptr)
 			    Message("    %d difference col %f sin %f cos %f \n",myid,
 					    del_co*180/M_PI, del_cys*180/M_PI, del_cyc*180/M_PI);
 
-				*flag_jac_ptr = 10;
+				*flag_jac_ptr = 12;
 
 			    up_co[i]=1;
                 goto COYEND;
@@ -2658,16 +2733,16 @@ DEFINE_ON_DEMAND(rotor_inputs)
   int number_of_sections, ic;
   char exst_type[100][30];
   int temp, trim,surf ;
-  char *type_new[10][20];
+  char *type_new[20][20];/*Edited*/ 
   int col_pitch, cyc_pitch;
-  real bcop_udf[10], bcyc_udf[10], bcys_udf[10];
-  int trmco_dat[10], trmcy_dat[10];
+  real bcop_udf[20], bcyc_udf[20], bcys_udf[20];/*Edited*/ 
+  int trmco_dat[20], trmcy_dat[20];/*Edited*/ 
   register int j,k;
 
 
   int ic2;
   /*real rsec_v[200], csec_v[200], twst_v[200];*/
-  /*real dskco_0[10], dskco_1[10], dskco_2[10];*/
+  /*real dskco_0[20], dskco_1[20], dskco_2[20];*/
   /*char type_new_v[200];*/
   int itrm=0;
 
@@ -2787,7 +2862,7 @@ DEFINE_ON_DEMAND(rotor_inputs)
   }
   /*Message("DONE");*/
 
-  for (j=0; j<10; j++)
+  for (j=0; j<20; j++)/*Edited*/ 
   {
 	for (k=0; k<20; k++)
 	{
@@ -2808,46 +2883,46 @@ DEFINE_ON_DEMAND(rotor_inputs)
 
 /*Only host sends*/
   host_to_node_int_2(nrtz,itrm);
-  host_to_node_int(nbld,10);
-  host_to_node_real(rrl,10);
-  host_to_node_real(rspe,10);
-  host_to_node_real(teff,10);
-  /*host_to_node_real(dskco_0,10);*/
-  /*host_to_node_real(dskco_1,10);*/
-  /*host_to_node_real(dskco_2,10);*/
-  host_to_node_real(dskco,30);
-  host_to_node_real(dpit,10);
-  host_to_node_real(dban,10);
+  host_to_node_int(nbld,20);/*Edited*/ 
+  host_to_node_real(rrl,20);/*Edited*/ 
+  host_to_node_real(rspe,20);/*Edited*/ 
+  host_to_node_real(teff,20);/*Edited*/ 
+  /*host_to_node_real(dskco_0,20);*/
+  /*host_to_node_real(dskco_1,20);*/
+  /*host_to_node_real(dskco_2,20);*/
+  host_to_node_real(dskco,60);/*Edited*/ 
+  host_to_node_real(dpit,20);/*Edited*/ 
+  host_to_node_real(dban,20);/*Edited*/ 
 
-  host_to_node_int(trmco,10);
-  host_to_node_int(trmcy,10);
-  host_to_node_int(trmco_dat,10);
-  host_to_node_int(trmcy_dat,10);
-  host_to_node_real(trdf,10);
-  host_to_node_int(trufq,10);
-  host_to_node_real(ctd,10);
-  host_to_node_real(cmxd,10);
-  host_to_node_real(cmyd,10);
+  host_to_node_int(trmco,20);/*Edited*/ 
+  host_to_node_int(trmcy,20);/*Edited*/ 
+  host_to_node_int(trmco_dat,20);/*Edited*/ 
+  host_to_node_int(trmcy_dat,20);/*Edited*/ 
+  host_to_node_real(trdf,20);/*Edited*/ 
+  host_to_node_int(trufq,20);/*Edited*/ 
+  host_to_node_real(ctd,20);/*Edited*/ 
+  host_to_node_real(cmxd,20);/*Edited*/ 
+  host_to_node_real(cmyd,20);/*Edited*/ 
 
-  host_to_node_real(bcop,10);
-  host_to_node_real(bcop_udf,10);
+  host_to_node_real(bcop,20);/*Edited*/ 
+  host_to_node_real(bcop_udf,20);/*Edited*/ 
 
-  host_to_node_real(bcyc,10);
-  host_to_node_real(bcyc_udf,10);
-  host_to_node_real(bcys,10);
-  host_to_node_real(bcys_udf,10);
+  host_to_node_real(bcyc,20);/*Edited*/ 
+  host_to_node_real(bcyc_udf,20);/*Edited*/ 
+  host_to_node_real(bcys,20);/*Edited*/ 
+  host_to_node_real(bcys_udf,20);/*Edited*/ 
 
-  host_to_node_real(bflco,10);
-  host_to_node_real(bfls,10);
-  host_to_node_real(bflc,10);
+  host_to_node_real(bflco,20);/*Edited*/ 
+  host_to_node_real(bfls,20);/*Edited*/ 
+  host_to_node_real(bflc,20);/*Edited*/ 
 
-  host_to_node_int(fzon,10);
-  host_to_node_int(nsec,10);
+  host_to_node_int(fzon,20);/*Edited*/ 
+  host_to_node_int(nsec,20);/*Edited*/ 
 
-  host_to_node_real(rsec,200);
-  host_to_node_real(csec,200);
-  host_to_node_real(twst,200);
-  host_to_node_string(type,6000);
+  host_to_node_real(rsec,400);/*Edited*/ 
+  host_to_node_real(csec,400);/*Edited*/ 
+  host_to_node_real(twst,400);/*Edited*/ 
+  host_to_node_string(type,12000);/*Edited*/ 
 
 
 
@@ -3033,7 +3108,7 @@ DEFINE_ON_DEMAND(rotor_inputs)
 #endif
 
   node_to_host_int_1(ktot);
-  node_to_host_string(file_name,3000);
+  node_to_host_string(file_name,6000);/*Edited*/ 
 
 
 
@@ -3074,13 +3149,13 @@ DEFINE_ON_DEMAND(rotor_inputs)
     host_to_node_string(check_name[j],30);
 
     for(k=0;k<50;k++)    {
-      host_to_node_string(clorcd[j][k],10);
+      host_to_node_string(clorcd[j][k],20);/*Edited*/ 
       host_to_node_float(aoa[j][k],80);
       host_to_node_float(coeff[j][k],80);
     }
   }
 
-  host_to_node_int(itot,100);
+  host_to_node_int(itot,200);/*Edited*/ 
   host_to_node_boolean_1(rho_const);
 
 /*#if !RP_HOST
@@ -4124,6 +4199,824 @@ DEFINE_SOURCE(zmom_src_10,cc,tc,dS,eqn)
 
 
 
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_11,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=10;				/*Rotor 11*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_11 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_11,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=10;				/*Rotor 11*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_11 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_11,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=10;				/*Rotor 11*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_11 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_12,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=11;				/*Rotor 12*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_12 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_12,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=11;				/*Rotor 12*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_12 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_12,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=11;				/*Rotor 12*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_12 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_13,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=12;				/*Rotor 13*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_13 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_13,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=12;				/*Rotor 13*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_13 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_13,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=12;				/*Rotor 13*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_13 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_14,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=13;				/*Rotor 14*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_14 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_14,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=13;				/*Rotor 14*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_14 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_14,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=13;				/*Rotor 14*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_14 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_15,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=14;				/*Rotor 15*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_15 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_15,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=14;				/*Rotor 15*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_15 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_15,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=14;				/*Rotor 15*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_15 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_16,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=15;				/*Rotor 16*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_16 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_16,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=15;				/*Rotor 16*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_16 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_16,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=15;				/*Rotor 16*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_16 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_17,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=16;				/*Rotor 17*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_17 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_17,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=16;				/*Rotor 17*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_17 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_17,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=16;				/*Rotor 17*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_17 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_18,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=17;				/*Rotor 18*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_18 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_18,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=17;				/*Rotor 18*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_18 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_18,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=17;				/*Rotor 18*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_18 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_19,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=18;				/*Rotor 19*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_19 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_19,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=18;				/*Rotor 19*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_19 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_19,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=18;				/*Rotor 19*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_19 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(xmom_src_20,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *xsource_ptr;
+  real source;
+  int i=19;				/*Rotor 20*/
+
+  /*Message("In DEFINE_SOURCE - xmom_src_20 \n");*/
+
+  xsource_ptr= Get_Thread_Memory(tc,xsource[i]);
+  source=xsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[0]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(ymom_src_20,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *ysource_ptr;
+  real source;
+  int i=19;				/*Rotor 20*/
+
+  /*Message("In DEFINE_SOURCE - ymom_src_20 \n");*/
+
+  ysource_ptr= Get_Thread_Memory(tc,ysource[i]);
+  source=ysource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[1]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
+DEFINE_SOURCE(zmom_src_20,cc,tc,dS,eqn)
+/*---------------------------------------------------------------------------*/
+/*				       				       */
+/*				       				       */
+/*Version	Date	Name			Remarks	       	       */
+/*---------------------------------------------------------------------------*/
+{
+#if !RP_HOST
+  real xrc2[ND_ND];
+  real *zsource_ptr;
+  real source;
+  int i=19;				/*Rotor 20*/
+
+  /*Message("In DEFINE_SOURCE - zmom_src_20 \n");*/
+
+  zsource_ptr= Get_Thread_Memory(tc,zsource[i]);
+  source=zsource_ptr[cc];
+
+  /*C_CENTROID(xrc2,cc,tc);
+  Message("test1 %f \n",xrc2[2]-source);*/
+  /*Message("test %f \n",source);*/
+
+  return source;
+#endif
+}
 
 
 /*---------------------------------------------------------------------------*/
@@ -4165,11 +5058,11 @@ DEFINE_RW_FILE(reader,fp)
 
 /*Only host sends*/
   host_to_node_int_1(itmp);
-  host_to_node_real(bcop,10);
-  host_to_node_real(bcyc,10);
-  host_to_node_real(bcys,10);
-  host_to_node_int(trmco,10);
-  host_to_node_int(trmcy,10);
+  host_to_node_real(bcop,20);
+  host_to_node_real(bcyc,20);
+  host_to_node_real(bcys,20);
+  host_to_node_int(trmco,20);
+  host_to_node_int(trmcy,20);
 
 
 #if RP_NODE
@@ -4207,11 +5100,11 @@ DEFINE_RW_FILE(writer,fp)
   /*nrtz=1;*/
 
   node_to_host_int_1(nrtz);
-  node_to_host_real(bcop,10);
-  node_to_host_real(bcyc,10);
-  node_to_host_real(bcys,10);
-  node_to_host_int(trmco,10);
-  node_to_host_int(trmcy,10);
+  node_to_host_real(bcop,20);
+  node_to_host_real(bcyc,20);
+  node_to_host_real(bcys,20);
+  node_to_host_int(trmco,20);
+  node_to_host_int(trmcy,20);
 
 
 #if !RP_NODE
